@@ -24,19 +24,13 @@ public class NBody{
 		return ps;
 	}
 
-	public static int readNum(String path){
-		In in = new In(path);
-		int num = in.readInt();
-		return num;
-	}
-
 	public static void main(String[] args) {
 		double T = Double.parseDouble(args[0]);
 		double dt = Double.parseDouble(args[1]);
 		String filename = args[2];
 		double radius = NBody.readRadius(filename);
 		Planet[] ps = NBody.readPlanets(filename);
-		int n = NBody.readNum(filename);
+		int n = ps.length;
 
 		StdDraw.enableDoubleBuffering();
 		
