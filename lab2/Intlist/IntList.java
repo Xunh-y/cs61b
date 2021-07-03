@@ -103,6 +103,9 @@ public class IntList {
             prt.rest = new IntList(A.first, null);
             prt = prt.rest;
         }
+        if (B == null){
+            return res;
+        }
         prt.rest = new IntList(B.first, null);
         prt = prt.rest;
         while (B.rest != null){
