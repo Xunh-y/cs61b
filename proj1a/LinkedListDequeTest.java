@@ -34,15 +34,16 @@ public class LinkedListDequeTest {
 	  *
 	  * && is the "and" operation. */
 	public static void addIsEmptySizeTest() {
+/*
 		System.out.println("Running add/isEmpty/Size test.");
 		System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-		/*
+
 		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
 
 		boolean passed = checkEmpty(true, lld1.isEmpty());
 
 		lld1.addFirst("front");
-		
+
 		// The && operator is the same as "and" in Python.
 		// It's a binary operator that returns true if both arguments true, and false otherwise.
 		passed = checkSize(1, lld1.size()) && passed;
@@ -58,7 +59,7 @@ public class LinkedListDequeTest {
 		lld1.printDeque();
 
 		printTestStatus(passed);
-		*/
+*/
 	}
 
 	/** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
@@ -67,7 +68,7 @@ public class LinkedListDequeTest {
 		System.out.println("Running add/remove test.");
 
 		System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-		/*
+
 		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 		// should be empty 
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -80,8 +81,24 @@ public class LinkedListDequeTest {
 		// should be empty 
 		passed = checkEmpty(true, lld1.isEmpty()) && passed;
 
+		Integer i1 = lld1.getRecursive(0);
+		lld1.addFirst(10);
+		Integer i2 = lld1.getRecursive(0);
+		lld1.addFirst(20);
+		Integer i3 = lld1.getRecursive(2);
+		lld1.addFirst(30);
+		Integer i4 = lld1.getRecursive(2);
+		Integer r1 = lld1.removeFirst();
+		Integer i5 = lld1.getRecursive(2);
+		Integer r2 = lld1.removeFirst();
+		Integer i6 = lld1.getRecursive(0);
+		Integer r3 = lld1.removeFirst();
+		Integer i7 = lld1.getRecursive(0);
+		Integer r4 = lld1.removeFirst();
+		lld1.addFirst(30);
+		Integer i8 = lld1.getRecursive(0);
 		printTestStatus(passed);
-		*/
+
 	}
 
 	public static void main(String[] args) {
