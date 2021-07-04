@@ -13,7 +13,7 @@ public class ArrayDeque<T> {
             T[] a = (T[]) new Object[items.length * 2];
             System.arraycopy(items, 0, a, 1, size);
             items = a;
-        }else {
+        } else {
             T[] a = (T[]) new Object[items.length];
             System.arraycopy(items, 0, a, 1, size);
             items = a;
@@ -54,7 +54,7 @@ public class ArrayDeque<T> {
         T[] a;
         if (items.length > 8 && (double) (size - 1) / items.length < 0.25) {
             a = (T[]) new Object[items.length / 2];
-        }else {
+        } else {
             a = (T[]) new Object[items.length];
         }
         System.arraycopy(items, 1, a, 0, size - 1);
@@ -68,11 +68,11 @@ public class ArrayDeque<T> {
             return null;
         }
         T res = get(size - 1);
-        if (items.length > 8 && (double) (size - 1)/items.length < 0.25) {
+        if (items.length > 8 && (double) (size - 1) / items.length < 0.25) {
             T[] a = (T[]) new Object[items.length / 2];
             System.arraycopy(items, 0, a, 0, size - 1);
             items = a;
-        }else {
+        } else {
             items[size - 1] = null;
         }
         size -= 1;
