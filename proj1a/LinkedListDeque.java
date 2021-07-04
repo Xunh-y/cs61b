@@ -1,9 +1,9 @@
 public class LinkedListDeque<T> {
 
     private class Node {
-        public T item;
-        public Node sentFront;
-        public Node sentBack;
+        private T item;
+        private Node sentFront;
+        private Node sentBack;
 
         public Node(T i, Node n, Node p) {
             item = i;
@@ -40,7 +40,7 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (sentinal.sentFront != sentinal){
+        if (sentinal.sentFront != sentinal) {
             return false;
         }
         return true;
@@ -90,7 +90,7 @@ public class LinkedListDeque<T> {
             if (tmp == sentinal) {
                 return null;
             }
-            index --;
+            index--;
         }
         return tmp.item;
     }
