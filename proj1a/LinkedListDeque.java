@@ -14,59 +14,54 @@ public class LinkedListDeque<T> {
 
     private Node sentinal;
     private Node value;
-    private Node vice_sent;
+    private Node viceSent;
     private int size;
 
-    public LinkedListDeque(){
+    public LinkedListDeque() {
         sentinal = new Node(null, null, null);
         sentinal.sentBack = sentinal;
         sentinal.sentFront = sentinal;
-        vice_sent = sentinal;
+        viceSent = sentinal;
         size = 0;
     }
 
-    public LinkedListDeque(T t){
-        sentinal = new Node(t,null,null);
-        value = new Node(t, sentinal, sentinal);
-        sentinal.sentBack = value;
-        sentinal.sentFront = value;
-        vice_sent = sentinal;
-        size = 1;
-    }
-
-    public void addFirst(T item){
-        Node node = new Node(item, sentinal,sentinal.sentBack);
+    public void addFirst(T item) {
+        Node node = new Node(item, sentinal, sentinal.sentBack);
         sentinal.sentBack.sentFront = node;
         sentinal.sentBack = node;
         size += 1;
     }
 
-    public void addLast(T item){
-        Node node = new Node(item, sentinal.sentFront,sentinal);
+    public void addLast(T item) {
+        Node node = new Node(item, sentinal.sentFront, sentinal);
         sentinal.sentFront.sentBack = node;
         sentinal.sentFront = node;
         size += 1;
     }
 
-    public boolean isEmpty(){
-        if (sentinal.sentFront != sentinal)return false;
+    public boolean isEmpty() {
+        if (sentinal.sentFront != sentinal){
+            return false;
+        }
         return true;
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
-    public void printDeque(){
+    public void printDeque() {
         Node tmp = sentinal;
-        while(tmp.sentBack != sentinal){
+        while (tmp.sentBack != sentinal) {
             tmp = tmp.sentBack;
             System.out.println(tmp.item);
         }
     }
 
-    public T removeFirst(){
-        if (sentinal.sentBack == sentinal)return null;
+    public T removeFirst() {
+        if (sentinal.sentBack == sentinal) {
+            return null;
+        }
         Node res = sentinal.sentBack;
         sentinal.sentBack.sentBack.sentFront = sentinal;
         sentinal.sentBack = sentinal.sentBack.sentBack;
@@ -74,8 +69,10 @@ public class LinkedListDeque<T> {
         return res.item;
     }
 
-    public T removeLast(){
-        if(sentinal.sentFront == sentinal)return null;
+    public T removeLast() {
+        if (sentinal.sentFront == sentinal) {
+            return null;
+        }
         Node res = sentinal.sentFront;
         sentinal.sentFront.sentFront.sentBack = sentinal;
         sentinal.sentFront = sentinal.sentFront.sentFront;
@@ -83,29 +80,32 @@ public class LinkedListDeque<T> {
         return res.item;
     }
 
-    public T get(int index){
-        if (sentinal.sentBack == sentinal){
+    public T get(int index) {
+        if (sentinal.sentBack == sentinal) {
             return null;
         }
         Node tmp = sentinal.sentBack;
-        while(index > 0){
+        while (index > 0) {
             tmp = tmp.sentBack;
-            if(tmp == sentinal)return null;
+            if (tmp == sentinal) {
+                return null;
+            }
+            index --;
         }
         return tmp.item;
     }
 
-    public T getRecursive(int index){
-        if (vice_sent.sentBack == sentinal) {
-            vice_sent = sentinal;
+    public T getRecursive(int index) {
+        if (viceSent.sentBack == sentinal) {
+            viceSent = sentinal;
             return null;
         }
-        vice_sent = vice_sent.sentBack;
-        if(index == 0){
-            T res = vice_sent.item;
-            vice_sent = sentinal;
+        viceSent = viceSent.sentBack;
+        if (index == 0) {
+            T res = viceSent.item;
+            viceSent = sentinal;
             return res;
         }
-        return getRecursive(index-1);
+        return getRecursive(index - 1);
     }
 }

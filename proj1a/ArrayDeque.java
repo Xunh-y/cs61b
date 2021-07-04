@@ -3,26 +3,27 @@ public class ArrayDeque<T> {
     private T[] items;
     private int size;
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
     }
 
-    public void addFirst(T item){
-        if(size == items.length){
+    public void addFirst(T item) {
+        if (size == items.length) {
             T[] a = (T[]) new Object[items.length*2];
-            System.arraycopy(items,0,a,1,size);
+            System.arraycopy(items, 0, a, 1, size);
             items = a;
         }
-        else{
+        else {
             T[] a = (T[]) new Object[items.length];
-            System.arraycopy(items,0,a,1,size);
+            System.arraycopy(items, 0, a, 1, size);
+            items = a;
         }
         items[0] = item;
         size += 1;
     }
 
-    public void addLast(T item){
+    public void addLast(T item) {
         if (size == items.length) {
             resize(size * 2);
         }
@@ -36,39 +37,42 @@ public class ArrayDeque<T> {
         items = a;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return size == 0;
     }
 
-    public void printDeque(){
-        for(int i=0;i<size;++i){
+    public void printDeque() {
+        for (int i = 0; i < size; ++i) {
             System.out.println(items[i]);
         }
     }
 
-    public T removeFirst(){
-        if(size == 0)return null;
+    public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         T res = get(0);
         T[] a;
-        if((double)(size-1)/items.length<0.25){
+        if (items.length > 8 && (double)(size-1)/items.length < 0.25) {
             a = (T[])new Object[items.length/2];
-
         }
         else {
             a = (T[])new Object[items.length];
         }
-        System.arraycopy(items,1,a,0,size-1);
+        System.arraycopy(items, 1, a, 0, size-1);
         items = a;
         size -= 1;
         return res;
     }
 
-    public T removeLast(){
-        if(size == 0)return null;
+    public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         T res = get(size-1);
-        if((double)(size-1)/items.length<0.25){
+        if (items.length > 8 && (double)(size-1)/items.length < 0.25) {
             T[] a = (T[])new Object[items.length/2];
-            System.arraycopy(items,0,a,0,size-1);
+            System.arraycopy(items, 0, a, 0, size-1);
             items = a;
         }
         else {
@@ -78,11 +82,11 @@ public class ArrayDeque<T> {
         return res;
     }
 
-    public T get(int index){
+    public T get(int index) {
         return items[index];
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 }
