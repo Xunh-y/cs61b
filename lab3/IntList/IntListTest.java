@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import javax.naming.InsufficientResourcesException;
+
 public class IntListTest {
 
     /**
@@ -64,6 +66,20 @@ public class IntListTest {
         IntList exp = IntList.of(1, 2, 3, 4, 5, 6);
         assertEquals(exp, IntList.catenate(A, B));
         assertEquals(IntList.of(1, 2, 3), A);
+    }
+
+    @Test
+    public void testReverse() {
+        IntList A = IntList.of(1, 2, 3);
+        IntList A2 = IntList.of(1, 2, 3);
+        IntList expected = IntList.of(3, 2, 1);
+        assertEquals(expected, IntList.reverse(A));
+
+        assertNotEquals(A, A2);
+
+        IntList B = IntList.of();
+        IntList expected2 = IntList.of();
+        assertEquals(expected2, IntList.reverse(B));
     }
 
     /** If you're running this from the command line, you'll need
