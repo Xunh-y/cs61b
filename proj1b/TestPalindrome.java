@@ -31,7 +31,7 @@ public class TestPalindrome {
     public void testOffByOne() {
         CharacterComparator cc = new OffByOne();
         assertFalse(palindrome.isPalindrome("cs", cc));
-        assertTrue(palindrome.isPalindrome("", cc));
+        assertTrue(palindrome.isPalindrome("AB", cc));
         assertTrue(palindrome.isPalindrome("ab", cc));
         assertTrue(palindrome.isPalindrome("abb", cc));
     }

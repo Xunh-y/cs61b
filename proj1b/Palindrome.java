@@ -9,6 +9,17 @@ public class Palindrome {
 
     public boolean isPalindrome(String word) {
         Deque<Character> words = wordToDeque(word);
+        while (words.size() > 1) {
+            if (words.removeFirst() != words.removeLast()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*
+    public boolean isPalindromeR(String word) {
+        Deque<Character> words = wordToDeque(word);
         return isPalindromeByRecurse(words);
     }
 
@@ -16,6 +27,7 @@ public class Palindrome {
         if (words.size() == 1 || words.size() == 0) return true;
         return words.removeFirst().equals(words.removeLast()) && isPalindromeByRecurse(words);
     }
+     */
 
     public boolean isPalindrome(String word, CharacterComparator cc) {
         Deque<Character> words = wordToDeque(word);
