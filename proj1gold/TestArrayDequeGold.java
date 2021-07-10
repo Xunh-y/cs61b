@@ -10,6 +10,10 @@ public class TestArrayDequeGold {
         int s = 0;
 
         for (int i = 0; i < 1000; ++i) {
+            if (i % 5 == 0) {
+                msg += "size()\n";
+                assertEquals(msg, ads.size(), sad.size());
+            }
             double rand = StdRandom.uniform();
             if (rand < 0.25) {
                 sad.addFirst(i);
