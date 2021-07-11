@@ -1,8 +1,8 @@
 import synthesizer.GuitarString;
 
 public class GuitarHero {
-    private static final double hz = 440.0;
-    private static synthesizer.GuitarString[] strings = new synthesizer.GuitarString[37];
+    private static final double HZ = 440.0;
+    private static GuitarString[] strings = new GuitarString[37];
     private static String keyboard = "q2we4r5ty7u8i9op-[=zxdcfvgbnjmk,.;/' ";
 
     public static void main(String[] args) {
@@ -30,8 +30,8 @@ public class GuitarHero {
     private static void init() {
         for (int i = 0; i < 37; ++i) {
             int k = keyboard.indexOf(i);
-            int con = (int)( hz * Math.pow(2, (k - 12) / 12.0));
-            strings[i] = new synthesizer.GuitarString(con);
+            int con = (int) (HZ * Math.pow(2, (k - 12) / 12.0));
+            strings[i] = new GuitarString(con);
         }
     }
 }
