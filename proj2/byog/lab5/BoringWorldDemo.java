@@ -4,6 +4,8 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
+
+
 /**
  *  Draws a world that is mostly empty except for a small region.
  */
@@ -30,6 +32,7 @@ public class BoringWorldDemo {
                 world[x][y] = Tileset.WALL;
             }
         }
+
 
         // draws the world to the screen
         ter.renderFrame(world);
