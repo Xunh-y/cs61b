@@ -14,10 +14,10 @@ public class Helper {
     }
 
     protected static boolean aroundNothing(int x, int y, TETile[][] world) {
-        if (world[x - 1][y].equals(Tileset.NOTHING) &&
-                world[x + 1][y].equals(Tileset.NOTHING) &&
-                world[x][y + 1].equals(Tileset.NOTHING) &&
-                world[x][y - 1].equals(Tileset.NOTHING)) {
+        if (world[x - 1][y].equals(Tileset.NOTHING)
+                && world[x + 1][y].equals(Tileset.NOTHING)
+                && world[x][y + 1].equals(Tileset.NOTHING)
+                && world[x][y - 1].equals(Tileset.NOTHING)) {
             return true;
         }
         return false;

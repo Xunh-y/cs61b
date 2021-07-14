@@ -2,7 +2,6 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
-import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
@@ -19,7 +18,7 @@ public class Game {
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
-        drawInit();
+//        drawInit();
         while (true) {
             if (!StdDraw.hasNextKeyTyped()) {
                 continue;
@@ -128,6 +127,31 @@ public class Game {
         StdDraw.show();
     }
 
+//    private void drawInit() {
+//        initCanvas();
+//
+//        int mx = WIDTH / 2;
+//        int my = HEIGHT / 2;
+//        Font font = new Font("Monaco", Font.BOLD, 40);
+//        StdDraw.setFont(font);
+//        StdDraw.text(mx, HEIGHT - 10, "Xunh Game");
+//        Font menufont = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(menufont);
+//        StdDraw.text(mx, my + 5, "(N)New game");
+//        StdDraw.text(mx, my, "(L)Load game");
+//        StdDraw.text(mx, my - 5, "(Q)Quit");
+//        StdDraw.enableDoubleBuffering();
+//        StdDraw.show();
+//    }
+//
+//    private void initCanvas() {
+//        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+//        StdDraw.setXscale(0, WIDTH);
+//        StdDraw.setYscale(0, HEIGHT);
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.setPenColor(Color.WHITE);
+//        StdDraw.enableDoubleBuffering();
+//    }
     /**
      * Method used for autograding and testing the game code. The input string will be a series
      * of characters (for example, "n123sswwdasdassadwas", "n123sss:q", "lwww". The game should
@@ -141,9 +165,6 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // TODO: Fill out this method to run the game using the input passed in,
-        // and return a 2D tile representation of the world that would have been
-        // drawn if the same inputs had been given to playWithKeyboard().
 
         input = toLower(input);
         char first = input.charAt(0);
@@ -159,7 +180,7 @@ public class Game {
     }
 
     private TETile[][] loadGame(String input) {
-        TETile[][] world = null;
+        TETile[][] world;
         world = getSavedGame();
         playGame(world, input.substring(1));
         return world;
@@ -240,29 +261,4 @@ public class Game {
         return ans.toString();
     }
 
-    private void drawInit() {
-        initCanvas();
-
-        int mx = WIDTH / 2;
-        int my = HEIGHT / 2;
-        Font font = new Font("Monaco", Font.BOLD, 40);
-        StdDraw.setFont(font);
-        StdDraw.text(mx, HEIGHT - 10, "Xunh Game");
-        Font menufont = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(menufont);
-        StdDraw.text(mx, my + 5, "(N)New game");
-        StdDraw.text(mx, my, "(L)Load game");
-        StdDraw.text(mx, my - 5, "(Q)Quit");
-        StdDraw.enableDoubleBuffering();
-        StdDraw.show();
-    }
-
-    private void initCanvas() {
-        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
-        StdDraw.setXscale(0, WIDTH);
-        StdDraw.setYscale(0, HEIGHT);
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.enableDoubleBuffering();
-    }
 }

@@ -41,9 +41,9 @@ public class Hallway extends Helper{
         Position[] around = getAround(curp);
         Position[] connect = getConnect(curp, 2);
         for (int i = 0; i < 4; ++i) {
-            if (noOverRange(around[i], world) &&
-                    !world[around[i].x][around[i].y].equals(Tileset.WALL) &&
-                    world[connect[i].x][connect[i].y].equals(Tileset.NOTHING)) {
+            if (noOverRange(around[i], world)
+                    && !world[around[i].x][around[i].y].equals(Tileset.WALL)
+                    && world[connect[i].x][connect[i].y].equals(Tileset.NOTHING)) {
                 avails.add(connect[i]);
             }
         }
