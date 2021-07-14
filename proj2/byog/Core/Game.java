@@ -146,7 +146,6 @@ public class Game {
         // drawn if the same inputs had been given to playWithKeyboard().
 
         input = toLower(input);
-        drawInit();
         char first = input.charAt(0);
         TETile[][] finalWorldFrame = null;
         if (first == 'n') {
