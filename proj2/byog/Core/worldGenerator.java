@@ -4,6 +4,7 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +28,7 @@ public class worldGenerator {
         ter.renderFrame(world);
 
         return world;
+
     }
 
     private static void initWorld(TETile[][] world, Random random) {
@@ -34,6 +36,21 @@ public class worldGenerator {
         Hallway.hallwayCreate(world,random);
         fillofWall(world);
         Room.connectRoomAndHallway(world, rooms, random);
+        addPlayer(world, random);
+    }
+
+    private static void addPlayer(TETile[][] world, Random random) {
+        boolean hasPlayer = false;
+        while (!hasPlayer) {
+            int px = random.nextInt((int) (0.5 * (world.length - 2))) * 2;
+            int py = random.nextInt((int) (0.5 * (world[0].length - 2))) * 2;
+            Position player = new Position(px, py);
+            if (player.isvaild(world)) {
+                hasPlayer = true;
+                world[px][py] = Tileset.PLAYER;
+                Player.setPosition(player);
+            }
+        }
     }
 
 
