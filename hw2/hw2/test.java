@@ -22,15 +22,19 @@ public class test {
 //        Assert.assertFalse(p.isFull(4, 2));
 //        p.open(4, 3);
 //        Assert.assertTrue(p.percolates());
-        Percolation p = new Percolation(3);
-        p.open(0,0);
-        p.open(1,0);
-        p.open(2,0);
-        Assert.assertTrue(p.percolates());
-        p.open(1, 2);
-        Assert.assertFalse(p.isFull(1, 2));
-        p.open(2, 2);
-        Assert.assertFalse(p.isFull(1, 2));
-        Assert.assertFalse(p.isFull(0, 2));
+//        Percolation p = new Percolation(3);
+//        p.open(0,0);
+//        p.open(1,0);
+//        p.open(2,0);
+//        Assert.assertTrue(p.percolates());
+//        p.open(1, 2);
+//        Assert.assertFalse(p.isFull(1, 2));
+//        p.open(2, 2);
+//        Assert.assertFalse(p.isFull(1, 2));
+//        Assert.assertFalse(p.isFull(0, 2));
+        Percolation p = new Percolation(1);
+        Assert.assertFalse(p.isOpen(0, 0));
+        p.open(0, 0);
+        Assert.assertTrue(p.isOpen(0, 0));
     }
 }

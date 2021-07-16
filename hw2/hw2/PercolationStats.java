@@ -6,7 +6,7 @@ public class PercolationStats {
     private int T;
     private double[] cases;
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        if (N < 0 || T < 0) {
+        if (N <= 0 || T <= 0) {
             throw new java.lang.IllegalArgumentException("N and T must > 0");
         }
         this.T = T;
@@ -18,7 +18,7 @@ public class PercolationStats {
                 int y = StdRandom.uniform(N);
                 p.open(x, y);
             }
-            cases[i] = (double) p.numberOfOpenSites() / N * N;
+            cases[i] = (double) p.numberOfOpenSites() / (N * N);
         }
     }
     public double mean() {
