@@ -1,10 +1,10 @@
 package hw2;
 
 import org.junit.Assert;
-import org.junit.Test;
 
-public class test {
-    @Test
+public class Test {
+
+    @org.junit.Test
     public void testPer() {
 //        Percolation p = new Percolation(5);
 //        p.open(3, 3);
@@ -34,7 +34,9 @@ public class test {
 //        Assert.assertFalse(p.isFull(0, 2));
         Percolation p = new Percolation(1);
         Assert.assertFalse(p.isOpen(0, 0));
+        Assert.assertFalse(p.isFull(0, 0));
         p.open(0, 0);
         Assert.assertTrue(p.isOpen(0, 0));
+        Assert.assertTrue(p.isFull(0, 0));
     }
 }

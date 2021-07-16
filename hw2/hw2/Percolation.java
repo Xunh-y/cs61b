@@ -1,7 +1,6 @@
 package hw2;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-import org.junit.Test;
 
 public class Percolation {
     private int[][] g;
@@ -11,7 +10,7 @@ public class Percolation {
     private WeightedQuickUnionUF uf;
     private WeightedQuickUnionUF ufReal;
     private int[][] mo = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    public Percolation(int N){
+    public Percolation(int N) {
         if (N <= 0) {
             throw new java.lang.IllegalArgumentException("N <= 0");
         }
@@ -42,7 +41,7 @@ public class Percolation {
         if (row < 0 || row >= g.length || col < 0 || col >= g.length) {
             throw new java.lang.IndexOutOfBoundsException("the argument is outside its range");
         }
-        if (sta[g[row][col]] == 0){
+        if (sta[g[row][col]] == 0) {
             sta[g[row][col]] = 1;
             gridCon(row, col);
             size++;
@@ -82,7 +81,7 @@ public class Percolation {
         return uf.connected(top, bottom);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
     }
 }
