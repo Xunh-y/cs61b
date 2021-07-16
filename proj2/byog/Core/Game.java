@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Game {
     TERenderer ter = new TERenderer();
-    /* Feel free to change the width and height. */
+
     public static final int WIDTH = 81;
     public static final int HEIGHT = 41;
 
@@ -18,7 +18,7 @@ public class Game {
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
-//        drawInit();
+        drawInit();
         while (true) {
             if (!StdDraw.hasNextKeyTyped()) {
                 continue;
@@ -127,43 +127,32 @@ public class Game {
         StdDraw.show();
     }
 
-//    private void drawInit() {
-//        initCanvas();
-//
-//        int mx = WIDTH / 2;
-//        int my = HEIGHT / 2;
-//        Font font = new Font("Monaco", Font.BOLD, 40);
-//        StdDraw.setFont(font);
-//        StdDraw.text(mx, HEIGHT - 10, "Xunh Game");
-//        Font menufont = new Font("Monaco", Font.BOLD, 30);
-//        StdDraw.setFont(menufont);
-//        StdDraw.text(mx, my + 5, "(N)New game");
-//        StdDraw.text(mx, my, "(L)Load game");
-//        StdDraw.text(mx, my - 5, "(Q)Quit");
-//        StdDraw.enableDoubleBuffering();
-//        StdDraw.show();
-//    }
-//
-//    private void initCanvas() {
-//        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
-//        StdDraw.setXscale(0, WIDTH);
-//        StdDraw.setYscale(0, HEIGHT);
-//        StdDraw.clear(Color.BLACK);
-//        StdDraw.setPenColor(Color.WHITE);
-//        StdDraw.enableDoubleBuffering();
-//    }
-    /**
-     * Method used for autograding and testing the game code. The input string will be a series
-     * of characters (for example, "n123sswwdasdassadwas", "n123sss:q", "lwww". The game should
-     * behave exactly as if the user typed these characters into the game after playing
-     * playWithKeyboard. If the string ends in ":q", the same world should be returned as if the
-     * string did not end with q. For example "n123sss" and "n123sss:q" should return the same
-     * world. However, the behavior is slightly different. After playing with "n123sss:q", the game
-     * should save, and thus if we then called playWithInputString with the string "l", we'd expect
-     * to get the exact same world back again, since this corresponds to loading the saved game.
-     * @param input the input string to feed to your program
-     * @return the 2D TETile[][] representing the state of the world
-     */
+    private void drawInit() {
+        initCanvas();
+
+        int mx = WIDTH / 2;
+        int my = HEIGHT / 2;
+        Font font = new Font("Monaco", Font.BOLD, 40);
+        StdDraw.setFont(font);
+        StdDraw.text(mx, HEIGHT - 10, "Xunh Game");
+        Font menufont = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(menufont);
+        StdDraw.text(mx, my + 5, "(N)New game");
+        StdDraw.text(mx, my, "(L)Load game");
+        StdDraw.text(mx, my - 5, "(Q)Quit");
+        StdDraw.enableDoubleBuffering();
+        StdDraw.show();
+    }
+
+    private void initCanvas() {
+        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+        StdDraw.setXscale(0, WIDTH);
+        StdDraw.setYscale(0, HEIGHT);
+        StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.enableDoubleBuffering();
+    }
+
     public TETile[][] playWithInputString(String input) {
 
         input = toLower(input);
