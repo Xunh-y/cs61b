@@ -111,8 +111,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             Set<K> s = m.keySet();
             for (K k : s) {
                 if (k.equals(key)) {
-                    m.remove(key);
-                    return m.get(key);
+                    return m.remove(key);
                 }
             }
         }
@@ -124,20 +123,19 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * throw an UnsupportedOperationException.*/
     @Override
     public V remove(K key, V value) {
-//        for (ArrayMap<K, V> m : buckets) {
-//            Set<K> s = m.keySet();
-//            for (K k : s) {
-//                if (k.equals(key) && m.get(key).equals(value)) {
-//                    m.remove(key, value);
-//                    return m.get(key);
-//                }
-//            }
-//        }
-//        return null;
-        if (get(key) != value) {
-            return null;
+        for (ArrayMap<K, V> m : buckets) {
+            Set<K> s = m.keySet();
+            for (K k : s) {
+                if (k.equals(key) && m.get(key).equals(value)) {
+                    return m.remove(key, value);
+                }
+            }
         }
-        return remove(key);
+        return null;
+//        if (get(key) != value) {
+//            return null;
+//        }
+//        return remove(key);
     }
 
     @Override
