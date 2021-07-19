@@ -131,10 +131,10 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             if (root.right == null) {
                 return root.left;
             }
-            removeValue = root.value;
             Node newNode = min(root.right);
-            newNode.left = root.left;
             newNode.right = rotate(root.right);
+            newNode.left = root.left;
+            removeValue = root.value;
             return newNode;
         }
         return root;
