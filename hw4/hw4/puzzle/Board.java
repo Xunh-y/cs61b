@@ -1,15 +1,14 @@
 package hw4.puzzle;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Board implements WorldState {
 
-    int size;
+    private int size;
     private int[][] board;
-    private int[][] next =new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    int zeroX, zeroY;
+    private int[][] next = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    private int zeroX, zeroY;
 
     public Board(int[][] tiles) {
         size = tiles.length;
@@ -59,7 +58,9 @@ public class Board implements WorldState {
                 if (tileAt(i, j) == 0) {
                     continue;
                 }
-                sum += Math.abs(i - (board[i][j] - 1) / size()) + Math.abs(j - (board[i][j] - 1) % size());
+                int disx = (board[i][j] - 1) / size();
+                int disy = (board[i][j] - 1) % size();
+                sum += Math.abs(i - disx) + Math.abs(j - disy);
             }
         }
         return sum;
@@ -94,7 +95,7 @@ public class Board implements WorldState {
 
     @Override
     public Iterable<WorldState> neighbors() {
-        List<WorldState> l = new ArrayList<>();
+        List<WorldState> l;
 //        for (int i = 0; i < size; ++i) {
 //            for (int j = 0; j < size; ++j) {
 //                if (tileAt(i, j) == 0) {
@@ -146,7 +147,7 @@ public class Board implements WorldState {
         s.append(N + "\n");
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s.append(String.format("%2d ", tileAt(i,j)));
+                s.append(String.format("%2d ", tileAt(i, j)));
             }
             s.append("\n");
         }

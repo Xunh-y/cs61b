@@ -149,9 +149,9 @@ public class TestSolver {
 
     @Test
     public void test() {
-        String puzzleName = "input/puzzle47.txt";
+        String puzzleName = "input/puzzle31.txt";
         Board b = readBoard( puzzleName);
-        int numMoves = 47;
+        int numMoves = 31;
         BoardPuzzleSolution bps = new BoardPuzzleSolution(puzzleName, b, numMoves);
         Solver s = new Solver(b);
         assertEquals("Wrong number of moves on " + puzzleName, bps.numMoves, s.moves());
