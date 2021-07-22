@@ -155,4 +155,8 @@ public class Board implements WorldState {
         return s.toString();
     }
 
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
