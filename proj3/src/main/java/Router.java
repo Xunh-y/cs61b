@@ -1,5 +1,6 @@
-import java.util.List;
-import java.util.Objects;
+//import com.sun.tools.classfile.ConstantPool;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,9 +24,51 @@ public class Router {
      * @param destlat The latitude of the destination location.
      * @return A list of node id's in the order visited on the shortest path.
      */
+
+    private static GraphDB.Node stNode;
+    private static GraphDB.Node desNode;
+    private static GraphDB gragh;
+
+    protected static double disToDes(long id) {
+        GraphDB.Node node = gragh.nodeMap.get(id);
+        return GraphDB.distance(node.lon, node.lat, desNode.lon, desNode.lat);
+    }
+
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        return null; // FIXME
+        gragh = g;
+        stNode = gragh.nodeMap.get(g.closest(stlon, stlat));
+        desNode = gragh.nodeMap.get(g.closest(destlon, destlat));
+        PriorityQueue<SearchNode> pq = new PriorityQueue<>();
+        Map<Long, Boolean> vis = new HashMap<>();
+        List<Long> paths = new ArrayList<>();
+        pq.offer(new SearchNode(stNode.id, 0, null));
+        while (!pq.isEmpty() && !isGoal(pq.peek())) {
+            SearchNode front = pq.poll();
+            vis.put(front.id, true);
+            for (long l : g.adjacent(front.id)) {
+                if (!vis.containsKey(l) || !vis.get(l)) {
+                    pq.offer(new SearchNode(l, front.dis + disBetweenNode(l, front.id), front));
+                }
+            }
+        }
+        SearchNode tmp = pq.peek();
+        while (tmp != null) {
+            paths.add(tmp.id);
+            tmp = tmp.preNode;
+        }
+        Collections.reverse(paths);
+        return paths; // FIXME
+    }
+
+    private static double disBetweenNode(long l, long front) {
+        GraphDB.Node n1 = gragh.nodeMap.get(l);
+        GraphDB.Node n2 = gragh.nodeMap.get(front);
+        return GraphDB.distance(n1.lon, n1.lat, n2.lon, n2.lat);
+    }
+
+    private static boolean isGoal(SearchNode peek) {
+        return disToDes(peek.id) == 0;
     }
 
     /**
@@ -37,7 +80,74 @@ public class Router {
      * route.
      */
     public static List<NavigationDirection> routeDirections(GraphDB g, List<Long> route) {
-        return null; // FIXME
+
+        ArrayList<NavigationDirection> nav = new ArrayList<>();
+        double dis = 0;
+        int dir = NavigationDirection.START;
+        ArrayList<GraphDB.Edge> edges = getEdges(g, route);
+        if (edges.size() == 1) {
+            nav.add(new NavigationDirection(dir, edges.get(0).name, edges.get(0).dis));
+            return nav;
+        }
+        for (int i = 1; i < edges.size(); ++i) {
+            GraphDB.Edge curEdge = edges.get(i - 1);
+            GraphDB.Edge nextEdge = edges.get(i);
+
+            String curEdgename = curEdge.name;
+            String nextEdgename = nextEdge.name;
+
+            long preNode = route.get(i - 1);
+            long curNode = route.get(i);
+            long nextNode = route.get(i + 1);
+
+            dis += curEdge.dis;
+            if (!curEdgename.equals(nextEdgename)) {
+                nav.add(new NavigationDirection(dir, curEdgename, dis));
+                double curBear = g.bearing(preNode, curNode);
+                double nextBear = g.bearing(curNode, nextNode);
+                dir = getDirection(curBear, nextBear);
+                dis = 0;
+            }
+            if (i == edges.size() - 1) {
+                dis += nextEdge.dis;
+                nav.add(new NavigationDirection(dir, nextEdgename, dis));
+            }
+        }
+        return nav; // FIXME
+    }
+
+    private static int getDirection(double curBear, double nextBear) {
+        double relaBear = curBear - nextBear;
+        double absBear = Math.abs(relaBear);
+        int dir = 0;
+        if (absBear > 180) {
+            absBear = 360 - absBear;
+            relaBear = -relaBear;
+        }
+        if (absBear <= 15) {
+            dir = 1;
+        } else if (absBear <= 30) {
+            dir = relaBear > 0 ? 2 : 3;
+        } else if (absBear <= 100) {
+            dir = relaBear > 0 ? 5 : 4;
+        } else {
+            dir = relaBear > 0 ? 6 : 7;
+        }
+        return dir;
+    }
+
+    private static ArrayList<GraphDB.Edge> getEdges(GraphDB g, List<Long> route) {
+        ArrayList<GraphDB.Edge> edges = new ArrayList<>();
+        for (int i = 1; i < route.size(); ++i) {
+            long nextVertex = route.get(i);
+            long Vertex = route.get(i - 1);
+            for (GraphDB.Edge e : g.adjedges(Vertex)) {
+                if (e.getOther(Vertex) == nextVertex) {
+                    edges.add(e);
+                }
+            }
+        }
+        return edges;
     }
 
 
@@ -92,6 +202,12 @@ public class Router {
             this.direction = STRAIGHT;
             this.way = UNKNOWN_ROAD;
             this.distance = 0.0;
+        }
+
+        public NavigationDirection(int _d, String _w, double _dis) {
+            this.direction = _d;
+            this.way = _w;
+            this.distance = _dis;
         }
 
         public String toString() {

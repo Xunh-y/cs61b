@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Graph for storing all of the intersection (vertex) and road (edge) information.
@@ -20,6 +20,17 @@ import java.util.ArrayList;
 public class GraphDB {
     /** Your instance variables for storing the graph. You should consider
      * creating helper classes, e.g. Node, Edge, etc. */
+
+    //储存所有node
+    public Map<Long, Node> nodeMap = new HashMap<>();
+    //储存所有地点 可能没有与任何node相连
+    private Map<Long, Node> locations = new HashMap<>();
+    //储存所有name， 每个name都可能对应不只一个node id
+    private Map<String, ArrayList<Long>> names = new HashMap<>();
+    //储存该node id 相邻的所有node id
+    private Map<Long, ArrayList<Long>> adjNodes = new HashMap<>();
+    //储存该node id 相邻的所有edge
+    private Map<Long, ArrayList<Edge>> adjEdges = new HashMap<>();
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -57,7 +68,15 @@ public class GraphDB {
      *  we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
-        // TODO: Your code here.
+        //由于每次addnode()时会在adjnodes里创建一个新的表 故遍历所有adjnodes中的表 若表内无value 即说明该node没有连接
+        Iterator<Map.Entry<Long, ArrayList<Long>>> it = adjNodes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Long, ArrayList<Long>> entry = it.next();
+            if (entry.getValue().isEmpty()) {
+                nodeMap.remove(entry.getKey());
+                it.remove();
+            }
+        }
     }
 
     /**
@@ -65,8 +84,7 @@ public class GraphDB {
      * @return An iterable of id's of all vertices in the graph.
      */
     Iterable<Long> vertices() {
-        //YOUR CODE HERE, this currently returns only an empty list.
-        return new ArrayList<Long>();
+        return nodeMap.keySet();
     }
 
     /**
@@ -75,7 +93,11 @@ public class GraphDB {
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return null;
+        return adjNodes.get(v);
+    }
+
+    Iterable<Edge> adjedges(long v) {
+        return adjEdges.get(v);
     }
 
     /**
@@ -136,7 +158,15 @@ public class GraphDB {
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        return 0;
+        double tmpdis = Double.MAX_VALUE;
+        long ans = 0;
+        for (long id : vertices()) {
+            if (distance(lon, lat, lon(id), lat(id)) < tmpdis) {
+                ans = id;
+                tmpdis = distance(lon, lat, lon(id), lat(id));
+            }
+        }
+        return ans;
     }
 
     /**
@@ -145,7 +175,7 @@ public class GraphDB {
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return 0;
+        return nodeMap.get(v).lon;
     }
 
     /**
@@ -154,6 +184,68 @@ public class GraphDB {
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return 0;
+        return nodeMap.get(v).lat;
+    }
+
+    void addNode(long id, double lon, double lat) {
+        Node node = new Node(id, lon, lat);
+        nodeMap.put(id, node);
+        adjEdges.put(id, new ArrayList<>());
+        adjNodes.put(id, new ArrayList<>());
+        locations.put(id, node);
+    }
+
+    public void addName(long id, double lon, double lat, String name) {
+        String lowerNmae = cleanString(name);
+        if (!names.containsKey(lowerNmae)) {
+            names.put(lowerNmae, new ArrayList<>());
+        }
+        names.get(lowerNmae).add(id);
+        nodeMap.get(id).name = name;
+        locations.get(id).name = name;
+    }
+
+    public void addWay(ArrayList<Long> ways, String wayname) {
+        for (int i = 1; i < ways.size(); ++i) {
+            addEdge(ways.get(i - 1), ways.get(i), wayname);
+        }
+    }
+
+    private void addEdge(Long v, Long u, String wayname) {
+        adjNodes.get(v).add(u);
+        adjNodes.get(u).add(v);
+        adjEdges.get(v).add(new Edge(v, u, distance(u, v), wayname));
+        adjEdges.get(u).add(new Edge(v, u, distance(u, v), wayname));
+    }
+
+    public static class Node {
+        public long id;
+        public double lon;
+        public double lat;
+        public String name = null;
+
+        public Node(long _id, double _lon, double _lat) {
+            id = _id;
+            lon = _lon;
+            lat = _lat;
+        }
+    }
+
+    public static class Edge {
+        public long v;
+        public long u;
+        public double dis;
+        public String name;
+
+        public Edge(long _v, long _u, double _dis, String _name) {
+            v = _v;
+            u = _u;
+            dis = _dis;
+            name = _name;
+        }
+
+        public long getOther(long l) {
+            return v == l ? u : v;
+        }
     }
 }
