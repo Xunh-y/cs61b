@@ -1,6 +1,28 @@
 import edu.princeton.cs.algs4.Queue;
 
 public class QuickSort {
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        students.enqueue("Bob");
+        students.enqueue("NOC");
+        students.enqueue("MF");
+        System.out.println(students);
+        students = quickSort(students);
+        System.out.println(students);
+        Queue<Integer> id = new Queue<>();
+        id.enqueue(6);
+        id.enqueue(3);
+        id.enqueue(5);
+        id.enqueue(2);
+        id.enqueue(9);
+        id.enqueue(7);
+        System.out.println(id);
+        id = quickSort(id);
+        System.out.println(id);
+    }
     /**
      * Returns a new queue that contains the given queues catenated together.
      *
@@ -47,13 +69,29 @@ public class QuickSort {
     private static <Item extends Comparable> void partition(
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
-        // Your code here!
+        for (Item item : unsorted) {
+            if (item.compareTo(pivot) > 0) {
+                greater.enqueue(item);
+            } else if (item.compareTo(pivot) < 0) {
+                less.enqueue(item);
+            } else {
+                equal.enqueue(item);
+            }
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
-        // Your code here!
+        if (items.size() <= 1) {
+            return items;
+        }
+        Item pivot = getRandomItem(items);
+        Queue<Item> less = new Queue<>(), equal = new Queue<>(), greater = new Queue<>();
+        partition(items, pivot, less, equal, greater);
+        less = quickSort(less);
+        greater = quickSort(greater);
+        items = catenate(less, catenate(equal, greater));
         return items;
     }
 }
