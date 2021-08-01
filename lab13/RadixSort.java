@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Class for doing Radix sort
  *
@@ -23,6 +25,14 @@ public class RadixSort {
         for (String s : s2) {
             System.out.println(s);
         }
+        String[] s3 = { "+", "¦Ãd>®)", "YÏs^"};
+        for (String s : s3) {
+            System.out.println(s);
+        }
+        s3 = sort(s3);
+        for (String s : s3) {
+            System.out.println(s);
+        }
     }
     /**
      * Does LSD radix sort on the passed in array with the following restrictions:
@@ -41,8 +51,11 @@ public class RadixSort {
                 maxPos = s.length();
             }
         }
-        for (int d = 0; d < maxPos; d++) {
-            sortHelperLSD(asciis, d);
+//        for (int d = maxPos - 1; d >= 0; d--) {
+//            sortHelperLSD(asciis, d);
+//        }
+        for (int d = 0; d < maxPos; ++d ){
+            sortHelperMSD(asciis, 0, asciis.length - 1, 0);
         }
         return asciis;
     }
@@ -63,7 +76,7 @@ public class RadixSort {
 
         int[] starts = new int[r + 1];
         int pos = 0;
-        for (int i = 0; i < starts.length; i += 1) {
+        for (int i = 0; i <= r; i += 1) {
             starts[i] = pos;
             pos += cnt[i];
         }
@@ -101,7 +114,29 @@ public class RadixSort {
      *
      **/
     private static void sortHelperMSD(String[] asciis, int start, int end, int index) {
-        // Optional MSD helper method for optional MSD radix sort
-        return;
+        int r = 256;
+        if (start >= end) {
+            return;
+        }
+        int[] cnt = new int[r + 1];
+        for (int i = start; i <= end; ++i) {
+            cnt[getchar(asciis[i], index)]++;
+        }
+        int[] starts = new int[r + 1];
+        int pos = 0;
+        for (int i = 0; i <= r; i += 1) {
+            starts[i] = pos;
+            pos += cnt[i];
+        }
+        String[] aux = new String[asciis.length];
+        for (int i = start; i <= end; i++){
+            aux[starts[getchar(asciis[i], index)]++] = asciis[i];
+        }
+        for (int i = start; i <= end; i++){
+            asciis[i] = aux[i - start];
+        }
+        for (int i = 0; i < r; ++i) {
+            sortHelperMSD(asciis, start + cnt[i], start + cnt[i + 1] - 1, index + 1);
+        }
     }
 }
