@@ -51,12 +51,12 @@ public class RadixSort {
                 maxPos = s.length();
             }
         }
-//        for (int d = maxPos - 1; d >= 0; d--) {
-//            sortHelperLSD(asciis, d);
-//        }
-        for (int d = 0; d < maxPos; ++d ){
-            sortHelperMSD(asciis, 0, asciis.length - 1, 0);
+        for (int d = maxPos - 1; d >= 0; d--) {
+            sortHelperLSD(asciis, d);
         }
+//        for (int d = 0; d < maxPos; ++d ){
+//            sortHelperMSD(asciis, 0, asciis.length - 1, 0);
+//        }
         return asciis;
     }
 
