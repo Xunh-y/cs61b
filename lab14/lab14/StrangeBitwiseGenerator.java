@@ -15,6 +15,7 @@ public class StrangeBitwiseGenerator implements Generator {
 //        int weirdState = state & (state >>> 3) % period;
         int weirdState = state & (state >> 3) & (state >> 8) % period;
         return normalize(weirdState);
+//        return normalize(state % period);
     }
 
     private double normalize(int state) {
