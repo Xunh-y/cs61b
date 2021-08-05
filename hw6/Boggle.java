@@ -95,7 +95,10 @@ public class Boggle {
     }
 
     public static void main(String[] args) {
+        long startTime=System.currentTimeMillis();
         List<String> l = solve(7, "smallBoard.txt");
+        long endTime=System.currentTimeMillis();
+        System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
         return;
     }
 }
