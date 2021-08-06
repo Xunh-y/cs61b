@@ -229,6 +229,7 @@ public class GraphDB {
                 list.add(locations.get(id).name);
             }
         }
+        System.out.println(list);
         return list;
     }
 
