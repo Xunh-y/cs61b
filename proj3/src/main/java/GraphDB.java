@@ -24,13 +24,15 @@ public class GraphDB {
     //储存所有node
     public Map<Long, Node> nodeMap = new HashMap<>();
     //储存所有地点 可能没有与任何node相连
-    private Map<Long, Node> locations = new HashMap<>();
+    public Map<Long, Node> locations = new HashMap<>();
     //储存所有name， 每个name都可能对应不只一个node id
     private Map<String, ArrayList<Long>> names = new HashMap<>();
     //储存该node id 相邻的所有node id
     private Map<Long, ArrayList<Long>> adjNodes = new HashMap<>();
     //储存该node id 相邻的所有edge
     private Map<Long, ArrayList<Edge>> adjEdges = new HashMap<>();
+    //Mytire 解决autocomplete
+    private MyTire<Long> myTire = new MyTire<>();
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -203,6 +205,8 @@ public class GraphDB {
         names.get(lowerNmae).add(id);
         nodeMap.get(id).name = name;
         locations.get(id).name = name;
+
+        myTire.put(lowerNmae, id);
     }
 
     public void addWay(ArrayList<Long> ways, String wayname) {
@@ -216,6 +220,20 @@ public class GraphDB {
         adjNodes.get(u).add(v);
         adjEdges.get(v).add(new Edge(v, u, distance(u, v), wayname));
         adjEdges.get(u).add(new Edge(v, u, distance(u, v), wayname));
+    }
+
+    public List<String> autoComplete(String prefix) {
+        List<String> list = new ArrayList<>();
+        for (String s : myTire.getByPrefix(cleanString(prefix))) {
+            for (long id : names.get(s)) {
+                list.add(locations.get(id).name);
+            }
+        }
+        return list;
+    }
+
+    public List<Long> getloc(String locationName) {
+        return names.get(cleanString(locationName));
     }
 
     public static class Node {
